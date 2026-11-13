@@ -4,12 +4,13 @@ import pygame
 pygame.init()
 
 
-screen = pygame.display.set_mode((400, 400), pygame.RESIZABLE)
+screen = pygame.display.set_mode((400, 400))
 
 
 pygame.display.set_caption("Free Spotify")
 icon = pygame.image.load('ishowspeed.jpg')
 pygame.display.set_icon(icon)
+
 
 color = ('white')
 screen.fill(color)
