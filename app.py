@@ -4,7 +4,7 @@ import pygame
 pygame.init()
 
 
-screen = pygame.display.set_mode((400, 400))
+screen = pygame.display.set_mode((1080, 720))
 
 
 pygame.display.set_caption("Free Spotify")
@@ -14,6 +14,10 @@ pygame.display.set_icon(icon)
 
 color = ('white')
 screen.fill(color)
+pygame.time.delay(1000)
+pygame.Surface.set_alpha(icon, 255)
+screen.blit(icon, (0, 0))
+
 pygame.display.flip()
 
 running = True
