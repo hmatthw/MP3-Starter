@@ -4,25 +4,41 @@ import pygame
 pygame.init()
 
 
-screen = pygame.display.set_mode((1080, 720))
+screen = pygame.display.set_mode((1000, 750))
+timer = pygame.time.Clock()
 
 
 pygame.display.set_caption("Free Spotify")
 icon = pygame.image.load('ishowspeed.jpg')
 pygame.display.set_icon(icon)
 
+WHITE = (255, 255, 255)
+RED = (255, 0, 0)
+GREEN = (0, 255, 0)
+
 #base background
-color = ('white')
+color = 'grey'
 screen.fill(color)
+
+pygame.draw.circle(screen, WHITE, (400,500), 25) #backwards
+pygame.draw.circle(screen, WHITE, (500,500), 35) #play
+pygame.draw.circle(screen, WHITE, (600,500), 25) #forwards
+
+backpng = pygame.image.load('backwards.png')
+fowardpng = pygame.image.load('fowards.png')
+playpng = pygame.image.load('play.jpg')
+
+back_icon = pygame.transform.smoothscale(
+    pygame.image.load("backwards.png").convert_alpha(), (35, 35)
+)
+play_icon = pygame.transform.smoothscale(
+    pygame.image.load("play.jpg").convert_alpha(), (50, 50)
+)
+forward_icon = pygame.transform.smoothscale(
+    pygame.image.load("fowards.png").convert_alpha(), (35, 35)
+)
+
 pygame.display.flip()
-
-change_color = pygame.USEREVENT +1
-hovering = pygame.USEREVENT +2
-
-box = pygame.Rect((255,255,50,50))
-grow = True
-
-pygame.time.set_timer(change_color, 500)
 
 running = True
 while running:
@@ -30,25 +46,16 @@ while running:
         if event.type == pygame.QUIT:
             running = False
 
-        if event.type == change_color:
-            if color == 'white':
-                screen.fill('white')
-                color == 'black'
-            elif color == 'black':
-                screen.fill('black')
-                color == 'white'
+        screen.fill("grey")
 
-        if event.type == hovering:
-            if grow:
-                box.inflate_ip(3, 3)
-                grow = box.width < 75
-            else:
-                box.inflate_ip(-3, -3)
-                grow = box.width < 50
+        pygame.draw.circle(screen, WHITE, (400, 500), 25)
+        pygame.draw.circle(screen, WHITE, (500, 500), 35)
+        pygame.draw.circle(screen, WHITE, (600, 500), 25)
 
-    if box.collidepoint(pygame.mouse.get_pos()):
-        pygame.event.post(pygame.event.Event(hovering))
+        screen.blit(back_icon, back_icon.get_rect(center=(400, 500)))
+        screen.blit(play_icon, play_icon.get_rect(center=(500, 500)))
+        screen.blit(forward_icon, forward_icon.get_rect(center=(600, 500)))
 
-    pygame.draw.rect(screen, "RED", box)
-    pygame.display.update()
+        pygame.display.flip()
+
 pygame.quit()
