@@ -20,6 +20,9 @@ GREEN = (0, 255, 0)
 color = 'grey'
 screen.fill(color)
 
+#album cover / song picture
+
+#forward, backward, play buttons
 pygame.draw.circle(screen, WHITE, (400,500), 25) #backwards
 pygame.draw.circle(screen, WHITE, (500,500), 35) #play
 pygame.draw.circle(screen, WHITE, (600,500), 25) #forwards
