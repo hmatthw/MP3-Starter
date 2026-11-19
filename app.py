@@ -1,7 +1,8 @@
 import pygame
-
+from pygame import mixer
 
 pygame.init()
+mixer.init()
 
 
 screen = pygame.display.set_mode((1000, 750))
@@ -20,17 +21,23 @@ GREEN = (0, 255, 0)
 color = 'grey'
 screen.fill(color)
 
-#album cover / song picture
+font1 = pygame.font.SysFont('arial', 20)
+text1 = font1.render('No Song Playing', True, (0, 0, 0))
+text_rect = text1.get_rect(center=(500, 425))
+screen.blit(text1, text_rect)
 
-#forward, backward, play buttons
-pygame.draw.circle(screen, WHITE, (400,500), 25) #backwards
-pygame.draw.circle(screen, WHITE, (500,500), 35) #play
-pygame.draw.circle(screen, WHITE, (600,500), 25) #forwards
+#picture when no song is being played
+nomusic = pygame.transform.smoothscale(
+    pygame.image.load('no music loaded icon.jpg').convert_alpha(), (250,250)
+)
+screen.blit(nomusic, nomusic.get_rect(center=(500,275)))
 
+# button pictures
 backpng = pygame.image.load('backwards.png')
 fowardpng = pygame.image.load('fowards.png')
 playpng = pygame.image.load('play.jpg')
 
+#makes the size of the images
 back_icon = pygame.transform.smoothscale(
     pygame.image.load("backwards.png").convert_alpha(), (35, 35)
 )
@@ -49,12 +56,11 @@ while running:
         if event.type == pygame.QUIT:
             running = False
 
-        screen.fill("grey")
-
+        #creates the 3 circles
         pygame.draw.circle(screen, WHITE, (400, 500), 25)
         pygame.draw.circle(screen, WHITE, (500, 500), 35)
         pygame.draw.circle(screen, WHITE, (600, 500), 25)
-
+        #puts the images onto the circles
         screen.blit(back_icon, back_icon.get_rect(center=(400, 500)))
         screen.blit(play_icon, play_icon.get_rect(center=(500, 500)))
         screen.blit(forward_icon, forward_icon.get_rect(center=(600, 500)))
