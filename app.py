@@ -1,11 +1,14 @@
 import pygame
 from pygame import mixer
 
+
 pygame.init()
 mixer.init()
 
 
 screen = pygame.display.set_mode((1000, 750))
+height = screen.get_height()
+width = screen.get_width()
 timer = pygame.time.Clock()
 
 
@@ -14,6 +17,7 @@ icon = pygame.image.load('ishowspeed.jpg')
 pygame.display.set_icon(icon)
 
 WHITE = (255, 255, 255)
+color_dark = (100,100,100)
 RED = (255, 0, 0)
 GREEN = (0, 255, 0)
 
@@ -21,16 +25,16 @@ GREEN = (0, 255, 0)
 color = 'grey'
 screen.fill(color)
 
-font1 = pygame.font.SysFont('arial', 20)
-text1 = font1.render('No Song Playing', True, (0, 0, 0))
-text_rect = text1.get_rect(center=(500, 425))
-screen.blit(text1, text_rect)
 
-#picture when no song is being played
+#default when no song is being played
 nomusic = pygame.transform.smoothscale(
     pygame.image.load('no music loaded icon.jpg').convert_alpha(), (250,250)
 )
 screen.blit(nomusic, nomusic.get_rect(center=(500,275)))
+font1 = pygame.font.SysFont('arial', 20)
+text1 = font1.render('No Song Playing', True, (0, 0, 0))
+text_rect = text1.get_rect(center=(500, 425))
+screen.blit(text1, text_rect)
 
 # button pictures
 backpng = pygame.image.load('backwards.png')
@@ -48,6 +52,8 @@ forward_icon = pygame.transform.smoothscale(
     pygame.image.load("fowards.png").convert_alpha(), (35, 35)
 )
 
+
+
 pygame.display.flip()
 
 running = True
@@ -64,6 +70,10 @@ while running:
         screen.blit(back_icon, back_icon.get_rect(center=(400, 500)))
         screen.blit(play_icon, play_icon.get_rect(center=(500, 500)))
         screen.blit(forward_icon, forward_icon.get_rect(center=(600, 500)))
+
+        #play button function
+        mouse = pygame.mouse.get_pos()
+
 
         pygame.display.flip()
 

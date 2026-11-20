@@ -1,86 +1,72 @@
-# Python program to add Custom Events
 import pygame
+import sys
 
 
+# initializing the constructor
 pygame.init()
 
-# Setting up the screen and timer
-screen = pygame.display.set_mode((500, 500))
-timer = pygame.time.Clock()
+# screen resolution
+res = (720,720)
 
-# set title
-pygame.display.set_caption('Custom Events')
+# opens up a window
+screen = pygame.display.set_mode(res)
 
-# defining colours
-WHITE = (255, 255, 255)
-RED = (255, 0, 0)
-GREEN = (0, 255, 0)
-BLUE = (0, 0, 255)
+# white color
+color = (255,255,255)
 
-# Keep a track of active variable
-bg_active_color = WHITE
-screen.fill(WHITE)
+# light shade of the button
+color_light = (170,170,170)
 
-# custom user event to change color
-CHANGE_COLOR = pygame.USEREVENT + 1
+# dark shade of the button
+color_dark = (100,100,100)
 
-# custom user event to inflate defalte
-# box
-ON_BOX = pygame.USEREVENT + 2
+# stores the width of the
+# screen into a variable
+width = screen.get_width()
 
-# creating Rectangle
-box = pygame.Rect((225, 225, 50, 50))
-grow = True
+# stores the height of the
+# screen into a variable
+height = screen.get_height()
 
-# posting a event to switch color after 
-# every 500ms
-pygame.time.set_timer(CHANGE_COLOR, 500)
+# defining a font
+smallfont = pygame.font.SysFont('Corbel',35)
 
-running = True
-while running:
-  
-    # checks which all events are posted
-    # and based on that perform required
-    # operations
-    for event in pygame.event.get():
-      
-        # switching colours after every
-        # 500ms
-        if event.type == CHANGE_COLOR:
-            if bg_active_color == GREEN:
-                screen.fill(GREEN)
-                bg_active_color = WHITE
-            elif bg_active_color == WHITE:
-                screen.fill(WHITE)
-                bg_active_color = GREEN
+# rendering a text written in
+# this font
+text = smallfont.render('quit' , True , color)
 
-        if event.type == ON_BOX:
-          
-            # to inflate and deflate box
-            if grow:
-                box.inflate_ip(3, 3)
-                grow = box.width < 75
-            else:
-                box.inflate_ip(-3, -3)
-                grow = box.width < 50
-
-        if event.type == pygame.QUIT:
-          
-            # for quitting the program
-            running = False
-
-    # Posting event when the cursor is on top 
-    # of the box
-    if box.collidepoint(pygame.mouse.get_pos()):
-        pygame.event.post(pygame.event.Event(ON_BOX))
-
-    # Drawing rectangle on the screen
-    pygame.draw.rect(screen, RED, box)
-
-    # Updating Screen
-    pygame.display.update()
+while True:
     
-    # Setting Frames per Second
-    timer.tick(30)
-
-pygame.quit()
+    for ev in pygame.event.get():
+        
+        if ev.type == pygame.QUIT:
+            pygame.quit()
+            
+        #checks if a mouse is clicked
+        if ev.type == pygame.MOUSEBUTTONDOWN:
+            
+            #if the mouse is clicked on the
+            # button the game is terminated
+            if width/2 <= mouse[0] <= width/2+140 and height/2 <= mouse[1] <= height/2+40:
+                pygame.quit()
+                
+    # fills the screen with a color
+    screen.fill((60,25,60))
+    
+    # stores the (x,y) coordinates into
+    # the variable as a tuple
+    mouse = pygame.mouse.get_pos()
+    
+    # if mouse is hovered on a button it
+    # changes to lighter shade 
+    if width/2 <= mouse[0] <= width/2+140 and height/2 <= mouse[1] <= height/2+40:
+        pygame.draw.rect(screen,color_light,[width/2,height/2,140,40])
+        
+    else:
+        pygame.draw.rect(screen,color_dark,[width/2,height/2,140,40])
+    
+    # superimposing the text onto our button
+    screen.blit(text , (width/2+50,height/2))
+    
+    # updates the frames of the game
+    pygame.display.update()
