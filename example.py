@@ -1,72 +1,87 @@
 import pygame
-import sys
+from pygame import mixer
 
 
-# initializing the constructor
 pygame.init()
+mixer.init()
 
-# screen resolution
-res = (720,720)
 
-# opens up a window
-screen = pygame.display.set_mode(res)
-
-# white color
-color = (255,255,255)
-
-# light shade of the button
-color_light = (170,170,170)
-
-# dark shade of the button
-color_dark = (100,100,100)
-
-# stores the width of the
-# screen into a variable
-width = screen.get_width()
-
-# stores the height of the
-# screen into a variable
+screen = pygame.display.set_mode((1000, 750))
 height = screen.get_height()
+width = screen.get_width()
+timer = pygame.time.Clock()
 
-# defining a font
-smallfont = pygame.font.SysFont('Corbel',35)
 
-# rendering a text written in
-# this font
-text = smallfont.render('quit' , True , color)
+pygame.display.set_caption("Free Spotify")
+icon = pygame.image.load('ishowspeed.jpg')
+pygame.display.set_icon(icon)
 
-while True:
-    
-    for ev in pygame.event.get():
-        
-        if ev.type == pygame.QUIT:
-            pygame.quit()
-            
-        #checks if a mouse is clicked
-        if ev.type == pygame.MOUSEBUTTONDOWN:
-            
-            #if the mouse is clicked on the
-            # button the game is terminated
-            if width/2 <= mouse[0] <= width/2+140 and height/2 <= mouse[1] <= height/2+40:
-                pygame.quit()
-                
-    # fills the screen with a color
-    screen.fill((60,25,60))
-    
-    # stores the (x,y) coordinates into
-    # the variable as a tuple
-    mouse = pygame.mouse.get_pos()
-    
-    # if mouse is hovered on a button it
-    # changes to lighter shade 
-    if width/2 <= mouse[0] <= width/2+140 and height/2 <= mouse[1] <= height/2+40:
-        pygame.draw.rect(screen,color_light,[width/2,height/2,140,40])
-        
-    else:
-        pygame.draw.rect(screen,color_dark,[width/2,height/2,140,40])
-    
-    # superimposing the text onto our button
-    screen.blit(text , (width/2+50,height/2))
-    
-    # updates the frames of the game
-    pygame.display.update()
+WHITE = (255, 255, 255)
+color_dark = (100,100,100)
+RED = (255, 0, 0)
+GREEN = (0, 255, 0)
+
+#base background
+color = 'grey'
+screen.fill(color)
+
+
+#default when no song is being played
+nomusic = pygame.transform.smoothscale(
+    pygame.image.load('no music loaded icon.jpg').convert_alpha(), (250,250)
+)
+screen.blit(nomusic, nomusic.get_rect(center=(500,275)))
+font1 = pygame.font.SysFont('arial', 20)
+text1 = font1.render('No Song Playing', True, (0, 0, 0))
+text_rect = text1.get_rect(center=(500, 425))
+screen.blit(text1, text_rect)
+
+# button pictures
+backpng = pygame.image.load('backwards.png')
+fowardpng = pygame.image.load('fowards.png')
+playpng = pygame.image.load('play.jpg')
+
+#makes the size of the images
+back_icon = pygame.transform.smoothscale(
+    pygame.image.load("backwards.png").convert_alpha(), (35, 35)
+)
+play_icon = pygame.transform.smoothscale(
+    pygame.image.load("play.jpg").convert_alpha(), (50, 50)
+)
+forward_icon = pygame.transform.smoothscale(
+    pygame.image.load("fowards.png").convert_alpha(), (35, 35)
+)
+
+
+
+pygame.display.flip()
+
+running = True
+while running:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False
+
+        #creates the 3 squares
+        pygame.draw.rect(screen, WHITE, (375, 475, 50, 50))  # centered at (400, 500)
+        pygame.draw.rect(screen, WHITE, (465, 465, 70, 70))  # centered at (500, 500)
+        pygame.draw.rect(screen, WHITE, (575, 475, 50, 50))  # centered at (600, 500)
+        #puts the images onto the circles
+        screen.blit(back_icon, back_icon.get_rect(center=(400, 500)))
+        screen.blit(play_icon, play_icon.get_rect(center=(500, 500)))
+        screen.blit(forward_icon, forward_icon.get_rect(center=(600, 500)))
+
+        #play button function
+        mouse = pygame.mouse.get_pos()
+        play_rect = play_icon.get_rect(center=(500, 500))
+
+        if  play_rect.collidepoint(mouse):
+            hover_play = play_icon.copy()
+            hover_play.fill((189,188,188))
+            screen.blit(hover_play, play_rect)
+        else:
+            hover_play = play_icon
+
+        pygame.display.flip()
+
+pygame.quit()

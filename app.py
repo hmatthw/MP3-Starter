@@ -63,9 +63,9 @@ while running:
             running = False
 
         #creates the 3 circles
-        pygame.draw.circle(screen, WHITE, (400, 500), 25)
-        pygame.draw.circle(screen, WHITE, (500, 500), 35)
-        pygame.draw.circle(screen, WHITE, (600, 500), 25)
+        back = pygame.draw.rect(screen, WHITE, (375, 475, 50, 50))  # centered at (400, 500)
+        play = pygame.draw.rect(screen, WHITE, (465, 465, 70, 70))  # centered at (500, 500)
+        forward = pygame.draw.rect(screen, WHITE, (575, 475, 50, 50))  # centered at (600, 500)
         #puts the images onto the circles
         screen.blit(back_icon, back_icon.get_rect(center=(400, 500)))
         screen.blit(play_icon, play_icon.get_rect(center=(500, 500)))
@@ -73,6 +73,20 @@ while running:
 
         #play button function
         mouse = pygame.mouse.get_pos()
+
+        if play.collidepoint(mouse):
+            pygame.draw.rect(screen,(189,188,188), play)
+            screen.blit(play_icon, play_icon.get_rect(center=play.center))
+
+        #back button function
+        if back.collidepoint(mouse):
+            pygame.draw.rect(screen,(189,188,188), back)
+            screen.blit(back_icon, back_icon.get_rect(center=back.center))
+
+        #forward button function
+        if forward.collidepoint(mouse):
+            pygame.draw.rect(screen,(189,188,188), forward)
+            screen.blit(forward_icon, forward_icon.get_rect(center=forward.center))
 
 
         pygame.display.flip()
