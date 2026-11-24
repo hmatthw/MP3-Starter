@@ -41,6 +41,10 @@ backpng = pygame.image.load('backwards.png')
 fowardpng = pygame.image.load('fowards.png')
 playpng = pygame.image.load('play.jpg')
 
+#songs
+perfect = 'perfect.mp3'
+pygame.mixer.music.load(perfect)
+
 #makes the size of the images
 back_icon = pygame.transform.smoothscale(
     pygame.image.load("backwards.png").convert_alpha(), (35, 35)
@@ -77,6 +81,10 @@ while running:
         if play.collidepoint(mouse):
             pygame.draw.rect(screen,(189,188,188), play)
             screen.blit(play_icon, play_icon.get_rect(center=play.center))
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            if play.collidepoint(mouse):
+                pygame.mixer.music.play()
+
 
         #back button function
         if back.collidepoint(mouse):
